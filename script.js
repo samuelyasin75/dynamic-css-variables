@@ -11,11 +11,29 @@ document.querySelector('#cancelarLogin').addEventListener('click', cancelarLogin
 
 function configSenha(caractere) {
     console.log('this is caractere: ' + caractere.data)
-    document.getElementById('senha').value = document.getElementById('senha').value.replace(`${caractere.data}`, `*`)
-    //armazenando senha
-    if (caractere.data == null) {
-        console.log('olha o valor tá null')
+    // Fazendo adapatação para o evento Delete e Crtl + v
+    if (String(caractere.data).length > 1) {
+        console.log(document.querySelector('#senha').value.length)
+        if (caractere.data == null) {
+            console.log('NUUULLLLL')
+            var diferenca = valorSenha.length - document.querySelector('#senha').value.length
+            for (let contCaractere = 0; contCaractere < diferenca; contCaractere++) {
+                valorSenha = valorSenha.replace(`${valorSenha[valorSenha.length - 1]}`, '')
+            }
+        } else {
+            console.log('OUTRAAAAAAAAAA')
+            document.querySelector('#senha').value = ''
+            for (let contCaractere = 0; contCaractere < String(caractere.data).length ; contCaractere++) {
+                valorSenha += String(caractere.data)[contCaractere]
+                document.querySelector('#senha').value += '*'
+                console.log(String(caractere.data)[contCaractere])
+                console.log(contCaractere)
+            }
+        }
+
     } else {
+        //armazenando senha
+        document.getElementById('senha').value = document.getElementById('senha').value.replace(`${caractere.data}`, `*`)
         valorSenha += caractere.data
     }
     console.log('this is valorSenha: ' + valorSenha)
@@ -59,4 +77,5 @@ function cancelarLogin() {
     document.styleSheets[0].cssRules[1].style.setProperty('--corFundoInputSenha', 'white')
     document.querySelector('#id').value = ''
     document.querySelector('#senha').value = ''
+    valorSenha = ''
 }
